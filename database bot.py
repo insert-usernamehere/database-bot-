@@ -16,6 +16,13 @@ def closefile():
         os.remove(finalfilepath)
     else:
         pass
+
+def closefile():
+    sleep(300)
+    if os.path.exists(finalfilepath1):
+        os.remove(finalfilepath1)
+    else:
+        pass
     
 
 
@@ -44,6 +51,27 @@ async def addcharacter(ctx):
     except Exception:
         await ctx.send("something went wrong! this probably means you didn't attach a file or discord api is broken")
 
+@client.command() 
+async def addcourtroom(ctx):
+    await ctx.send("adding to database please wait")
+    try:
+        await ctx.message.attachments[0].save("newcourtroom.zip")
+                                         
+        zf = ZipFile('newcourtroom.zip', 'r')
+        zf.extractall('public/singlecourtroom')
+        zf.close()
+        if os.path.exists("newcourtroom.zip"):
+            os.remove("newcourtroom.zip")
+        else:
+            pass
+        if os.path.exists("public/courtroom.zip"):
+            os.remove("public/courtroom.zip")
+        else:
+            pass
+        shutil.make_archive('public/courtrooms', 'zip', 'public/singlecourtroom')
+        await ctx.send("added to database")
+    except Exception:
+        await ctx.send("something went wrong! this probably means you didn't attach a file or discord api is broken")
 
 @client.command()     
 async def addsound(ctx):
@@ -85,6 +113,16 @@ async def getchrasset(ctx):
         await ctx.send("oops! that file does not exist make sure its spelled correctly")
 
 @client.command()     
+async def getcortasset(ctx):
+    weburl = ctx.message.content[14:]
+    filedirweburl = weburl.replace("%20", " ")
+    if os.path.isfile('public/singlecharacter/'+str(filedirweburl)):
+        betterweburl = weburl.replace(" ", "%20")
+        await ctx.send("http://fierce-push.auto.playit.gg:53368/singlecourtroom/"+str(betterweburl))
+    else:
+        await ctx.send("oops! that file does not exist make sure its spelled correctly")
+        
+@client.command()     
 async def getsound(ctx):
     sound = ctx.message.content[10:]
     sounddirweb = sound.replace("%20", " ")
@@ -99,13 +137,15 @@ async def downloadcharacter(ctx):
     filepath = ctx.message.content[19:]
     fullfilepath = 'public/singlecharacter/'+str(filepath)
     if os.path.isdir(fullfilepath):
+      await ctx.send("grabbing the character please wait")
       shutil.make_archive(fullfilepath, 'zip', fullfilepath)
       global finalfilepath
       finalfilepath = str(fullfilepath)+'.zip'
-      if Path(fullfilepath).stat().st_size > 7823:
+      if Path(fullfilepath).stat().st_size > 3850:
           urlpath = finalfilepath.replace(" ", "_")
           os.rename(finalfilepath,urlpath)
-          await ctx.send("http://fierce-push.auto.playit.gg:53368/"+str(urlpath))
+          newurlpath = finalfilepath.replace("/public", "")
+          await ctx.send("http://fierce-push.auto.playit.gg:53368/"+str(newurlpath))
           await ctx.send("note: this link will become invalid in 5 minutes")
           delfile = threading.Thread(target=closefile)
           delfile.start()
@@ -118,9 +158,40 @@ async def downloadcharacter(ctx):
     else:
         await ctx.send("sorry, but thats not a character in my database")
 
+@client.command()     
+async def downloadcourtroom(ctx):
+    filepath = ctx.message.content[19:]
+    fullfilepath = 'public/singlecourtroom/'+str(filepath)
+    if os.path.isdir(fullfilepath):
+      await ctx.send("grabbing the courtroom please wait")
+      shutil.make_archive(fullfilepath, 'zip', fullfilepath)
+      global finalfilepath1
+      finalfilepath1 = str(fullfilepath)+'.zip'
+      if Path(fullfilepath1).stat().st_size > 3850:
+          urlpath = finalfilepath1.replace(" ", "_")
+          os.rename(finalfilepath1,urlpath)
+          newurlpath = finalfilepath1.replace("/public", "")
+          await ctx.send("http://fierce-push.auto.playit.gg:53368/"+str(newurlpath))
+          await ctx.send("note: this link will become invalid in 5 minutes")
+          delfile = threading.Thread(target=closefile1)
+          delfile.start()
+      else:
+          await ctx.send(file=discord.File(str(finalfilepath)))  
+          if os.path.exists(finalfilepath):
+             os.remove(finalfilepath)
+          else:
+            pass
+    else:
+        await ctx.send("sorry, but thats not a courtroom in my database")
+
 @client.command()
 async def listchr(ctx):
     findchr = os.listdir('public/singlecharacter')
+    await ctx.send('```'+str(findchr)+'```')
+
+@client.command()
+async def listcourt(ctx):
+    findchr = os.listdir('public/singlecourtroom')
     await ctx.send('```'+str(findchr)+'```')
 
 @client.command()
