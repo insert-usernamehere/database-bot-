@@ -17,7 +17,7 @@ def closefile():
     else:
         pass
 
-def closefile():
+def closefile1():
     sleep(300)
     if os.path.exists(finalfilepath1):
         os.remove(finalfilepath1)
@@ -108,7 +108,7 @@ async def getchrasset(ctx):
     filedirweburl = weburl.replace("%20", " ")
     if os.path.isfile('public/singlecharacter/'+str(filedirweburl)):
         betterweburl = weburl.replace(" ", "%20")
-        await ctx.send("http://fierce-push.auto.playit.gg:53368/singlecharacter/"+str(betterweburl))
+        await ctx.send("http://fierce-push.auto.playit.gg:47746/singlecharacter/"+str(betterweburl))
     else:
         await ctx.send("oops! that file does not exist make sure its spelled correctly")
 
@@ -118,7 +118,7 @@ async def getcortasset(ctx):
     filedirweburl = weburl.replace("%20", " ")
     if os.path.isfile('public/singlecharacter/'+str(filedirweburl)):
         betterweburl = weburl.replace(" ", "%20")
-        await ctx.send("http://fierce-push.auto.playit.gg:53368/singlecourtroom/"+str(betterweburl))
+        await ctx.send("http://fierce-push.auto.playit.gg:47746/singlecourtroom/"+str(betterweburl))
     else:
         await ctx.send("oops! that file does not exist make sure its spelled correctly")
         
@@ -128,7 +128,7 @@ async def getsound(ctx):
     sounddirweb = sound.replace("%20", " ")
     if os.path.isfile('public/singlesound/'+str(sounddirweb)):
         bettersound = sound.replace(" ", "%20")
-        await ctx.send("http://fierce-push.auto.playit.gg:53368/singlesound/"+str(bettersound))
+        await ctx.send("http://fierce-push.auto.playit.gg:47746/singlesound/"+str(bettersound))
     else:
         await ctx.send("oops! that file does not exist make sure its spelled correctly")
 
@@ -145,7 +145,7 @@ async def downloadcharacter(ctx):
           urlpath = finalfilepath.replace(" ", "_")
           os.rename(finalfilepath,urlpath)
           newurlpath = finalfilepath.replace("/public", "")
-          await ctx.send("http://fierce-push.auto.playit.gg:53368/"+str(newurlpath))
+          await ctx.send("http://fierce-push.auto.playit.gg:47746/"+str(newurlpath))
           await ctx.send("note: this link will become invalid in 5 minutes")
           delfile = threading.Thread(target=closefile)
           delfile.start()
@@ -171,7 +171,7 @@ async def downloadcourtroom(ctx):
           urlpath = finalfilepath1.replace(" ", "_")
           os.rename(finalfilepath1,urlpath)
           newurlpath = finalfilepath1.replace("/public", "")
-          await ctx.send("http://fierce-push.auto.playit.gg:53368/"+str(newurlpath))
+          await ctx.send("http://fierce-push.auto.playit.gg:47746/"+str(newurlpath))
           await ctx.send("note: this link will become invalid in 5 minutes")
           delfile = threading.Thread(target=closefile1)
           delfile.start()
