@@ -175,7 +175,7 @@ async def downloadcourtroom(ctx):
           urlpath = finalfilepath1.replace(" ", "_")
           os.rename(finalfilepath1,urlpath)
           newurlpath = finalfilepath1.replace("/public", "")
-          await ctx.send("http://fierce-push.auto.playit.gg:47746/"+str(newurlpath))
+          await ctx.send("http://fierce-push.auto.playit.gg:47746/"+str(urlpath))
           await ctx.send("note: this link will become invalid in 5 minutes")
           delfile = threading.Thread(target=closefile1)
           delfile.start()
