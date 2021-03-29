@@ -135,6 +135,10 @@ async def getsound(ctx):
 @client.command()     
 async def downloadcharacter(ctx):
     filepath = ctx.message.content[19:]
+    if filepath == '':
+        filepath = 'something that does not exist'
+    else:
+        pass
     fullfilepath = 'public/singlecharacter/'+str(filepath)
     if os.path.isdir(fullfilepath):
       await ctx.send("grabbing the character please wait")
@@ -145,7 +149,7 @@ async def downloadcharacter(ctx):
           urlpath = finalfilepath.replace(" ", "_")
           os.rename(finalfilepath,urlpath)
           newurlpath = finalfilepath.replace("/public", "")
-          await ctx.send("http://fierce-push.auto.playit.gg:47746/"+str(newurlpath))
+          await ctx.send("http://fierce-push.auto.playit.gg:47746/"+str(urlpath))
           await ctx.send("note: this link will become invalid in 5 minutes")
           delfile = threading.Thread(target=closefile)
           delfile.start()
