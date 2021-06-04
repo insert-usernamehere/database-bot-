@@ -95,6 +95,26 @@ async def addsound(ctx):
     except Exception:
         await ctx.send("something went wrong! this probably means you didn't attach a file or discord api is broken")
 
+@client.command()
+async def lazyaddsound(ctx):
+    soutype = ctx.message.content[14:]
+    findsou1 = 'public/singlesound/'+str(soutype)
+    if os.path.isdir(findsou1):
+        try:
+            name = ctx.message.attachments[0].filename
+            await ctx.message.attachments[0].save(name)
+            shutil.move(f"{name}", f"{findsou1}/{name}")
+            if os.path.exists("public/sounds.zip"):
+                os.remove("public/sounds.zip")
+            else:
+                pass
+            shutil.make_archive('public/sounds', 'zip', 'public/singlesound')
+            await ctx.send("added to database")
+        except Exception:
+            await ctx.send("something went wrong! this probably means you didn't attach a file or discord api is broken")
+    else:
+        await ctx.send('thats not a sound option avalible options are "blips", "music", and "general"')
+
 @client.command()     
 async def setip(ctx):
     ip = userInput = ctx.message.content[7:]
@@ -216,7 +236,7 @@ async def listsound(ctx):
         else:
             await ctx.send('```'+str(findsou)+'```')
     else:
-        await ctx.send('thats not a sound option avalible options are "sound", and "general"')
+        await ctx.send('thats not a sound option avalible options are "blps", "music", and "general"')
 
     
-client.run('botid')
+client.run('bottoken')
